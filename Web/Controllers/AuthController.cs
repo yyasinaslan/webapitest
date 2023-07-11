@@ -11,8 +11,14 @@ namespace Web.Controllers
     public class AuthController : ControllerBase
     {
 
-        [HttpPost]
+        [HttpPost("Login")]
         public ActionResult<string> Login(UserLoginDto credentials)
+        {
+            return credentials.Username + '=' + credentials.Password;
+        }
+
+        [HttpPost("Register")]
+        public ActionResult<string> Register(UserLoginDto credentials)
         {
             return credentials.Username + '=' + credentials.Password;
         }
