@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Any;
+using Microsoft.EntityFrameworkCore;
+using Web.Context;
 using Web.Dtos;
+using Web.Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,10 +13,19 @@ namespace Web.Controllers
     public class AuthController : ControllerBase
     {
 
-        [HttpPost("Login")]
-        public ActionResult<string> Login(UserLoginDto credentials)
+        private readonly MyDbContext _db;
+
+        public AuthController(MyDbContext db)
         {
-            return credentials.Username + '=' + credentials.Password;
+            _db = db;
+        }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<List<Product>>> Login(UserLoginDto credentials)
+        {
+            var products = await _db.Products.ToListAsync();
+            
+            return products;
         }
 
         [HttpPost("Register")]
