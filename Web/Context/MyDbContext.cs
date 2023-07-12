@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Web.Entities;
 
 namespace Web.Context
 {
-    public class MyDbContext : DbContext
+    public class MyDbContext : IdentityDbContext<User>
     {
         public MyDbContext()
         {
@@ -16,6 +17,18 @@ namespace Web.Context
         {
             optionsBuilder.UseNpgsql("Host=127.0.0.1;Database=ef;Username=postgres;Password=123456");
             base.OnConfiguring(optionsBuilder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            //var admin = new User
+            //{
+            //    UserName = "admin",
+            //    Email = "admin@example.com"
+            //};
+
+
+            base.OnModelCreating(builder);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,

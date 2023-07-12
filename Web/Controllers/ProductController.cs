@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Context;
 using Web.Dtos;
@@ -8,6 +9,7 @@ namespace Web.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class ProductController : ControllerBase
 {
     private readonly MyDbContext _db;
