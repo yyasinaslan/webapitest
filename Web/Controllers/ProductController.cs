@@ -24,6 +24,13 @@ public class ProductController : ControllerBase
     {
         return await _db.Products.ToListAsync();
     }
+    
+    [AllowAnonymous]
+    [HttpGet("GetMessage")]
+    public string GetMessage()
+    {
+        return "Hello api";
+    }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
