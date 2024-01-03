@@ -11,7 +11,6 @@ namespace Web.Swagger
 
         private bool HasAttribute(MethodInfo methodInfo, Type type, bool inherit)
         {
-            // inhertit = true also checks inherited attributes
             var actionAttributes = methodInfo.GetCustomAttributes(inherit);
             var controllerAttributes = methodInfo.DeclaringType.GetTypeInfo().GetCustomAttributes(inherit);
             var actionAndControllerAttributes = actionAttributes.Union(controllerAttributes);
@@ -19,16 +18,12 @@ namespace Web.Swagger
 
             return actionAndControllerAttributes.Any(attr =>
             {
-                Console.WriteLine("OperationAttributes===" + attr.GetType() + "<<>>" + type);
-
                 return attr.GetType() == type;
             });
         }
 
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            Console.WriteLine("Operation===" + context.MethodInfo.Name);
-
             bool hasAuthorizeAttribute = HasAttribute(context.MethodInfo, typeof(AuthorizeAttribute), true);
             bool hasAnonymousAttribute = HasAttribute(context.MethodInfo, typeof(AllowAnonymousAttribute), true);
 

@@ -25,7 +25,7 @@ namespace Web.Controllers
             _db = db;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult<List<Product>>> Login(UserLoginDto credentials)
         {
@@ -34,20 +34,46 @@ namespace Web.Controllers
             return products;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         [AllowAnonymous]
         public ActionResult<string> Register(UserLoginDto credentials)
         {
             return credentials.Username + '=' + credentials.Password;
         }
 
-        [HttpDelete("DeleteAccount")]
+        [HttpDelete("delete-account")]
         [Authorize]
         public ActionResult<string> DeleteMyAccount(UserLoginDto credentials)
         {
             return credentials.Username + '=' + credentials.Password;
         }
 
+        [HttpGet("verify-email/{token}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult VerifyEmail(string token)
+        {
+            if (token is null)
+            {
+                return BadRequest("Please provide a verification token");
+            }
+
+            return Ok();
+        }
+
+
+        [HttpGet("resend-verification-email/{email}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult ResendVerificationEmail(string email)
+        {
+            if (email is null)
+            {
+                return BadRequest("Please provide a valid email");
+            }
+
+            return Ok();
+        }
 
         private string CreateToken(User user)
         {
